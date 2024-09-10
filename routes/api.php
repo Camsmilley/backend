@@ -6,6 +6,7 @@ use App\Http\Controllers\SafariController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuideController;
+use App\Http\Controllers\PaymentController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -29,8 +30,10 @@ Route::get('/bookings', [BookingController::class, 'index']);
 Route::get('/bookings/{id}', [BookingController::class, 'show']);
 Route::post('/bookings', [BookingController::class, 'store']);
 Route::put('/bookings/{id}', [BookingController::class, 'update']);
+Route::put('/bookings/{id}/confirmed', [BookingController::class, 'update_confirmed']);
 Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
 
+Route::get('/payment', [PaymentController::class, 'handleWebhook']);
 Route::get('/daily-bookings', [BookingController::class, 'dailyBookings']);
 
 // total

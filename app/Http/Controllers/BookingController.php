@@ -116,6 +116,18 @@ class BookingController extends Controller
             'cancelled' => $cancelled
         ]);
     }
+    
+    public function update_confirmed($id)
+    {
+        $booking = Booking::with('safari')->find($id);
+    
+        if (!$booking) {
+            return response()->json(['message' => 'Booking not found'], 404);
+        }
+
+        $booking->update(['status' => 'confirmed']);
+        return response()-> json(200);
+    }
 
     public function updateStatus(Request $request, $id)
     {
@@ -139,8 +151,8 @@ class BookingController extends Controller
         }
     
         try {
-            Mail::to($booking->email)->send(new BookingStatusUpdated($booking));
-            \Log::info("Email sent successfully for booking {$id}.");
+            // Mail::to($booking->email)->send(new BookingStatusUpdated($booking));
+            // \Log::info("Email sent successfully for booking {$id}.");
     
             return response()->json([
                 'message' => 'Booking status updated and email sent successfully',
